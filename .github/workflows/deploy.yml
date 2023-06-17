@@ -1,0 +1,38 @@
+name: Deploy On My server
+on:
+  push:
+    branches:
+      - main  # 更改为你要触发的分支
+
+
+jobs:
+  login:
+    runs-on: ubuntu-latest  # 可以根据需要更改操作系统
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login and Fetch Token
+        run: |
+          # 在这里编写登录请求的代码，使用适当的语言和库发送POST请求，获取并提取出令牌
+          # 将令牌存储在一个变量中
+
+          # 示例（使用cURL发送请求）：
+          token=$(curl -X POST -d 'username= ${{ secrets.username }}&password= ${{ secrets.password }}'  http://110.42.182.92:5920/api/user/login | jq -r '.data.token')
+
+          echo "Token: $token"
+
+          # 将令牌存储为一个GitHub Actions的环境变量，以便在后续的步骤中使用
+          echo "TOKEN=$token" >> $GITHUB_ENV
+      
+      - name: Start Deploy Task
+        run: |
+          # 在这里编写发送下一个请求的代码，使用适当的语言和库
+          # 将上一步获取的令牌放置在请求标头中
+
+          # 示例（使用cURL发送请求）：
+          token=$TOKEN  # 获取上一步中存储的令牌
+
+          curl -H "Auth-Token: $token"  http://110.42.182.92:5920/api/task/run/1
+
