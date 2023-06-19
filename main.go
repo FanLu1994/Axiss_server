@@ -20,7 +20,7 @@ func main() {
 	offAccount := wechat.NewMyOfficialAccount(wechatInstance)
 	wc := router.Group("/wc")
 	{
-		wc.Any("/wc/serve", offAccount.Serve)
+		wc.Any("/serve", offAccount.Serve)
 	}
 
 	router.Run(":7777")

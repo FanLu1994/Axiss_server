@@ -34,5 +34,5 @@ jobs:
           # 示例（使用cURL发送请求）：
           token=$TOKEN  # 获取上一步中存储的令牌
 
-          curl -H "Auth-Token: $token"  http://110.42.182.92:5920/api/task/run/1
+          curl -H "Auth-Token: $token"  http://110.42.182.92:5920/api/task/run/3
 
