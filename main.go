@@ -28,6 +28,7 @@ func main() {
 	rss := router.Group("rss")
 	{
 		rss.POST("/add", api.AddFeed)
+		rss.GET("/feed", api.GetFeed)
 	}
 
 	router.Run(globalConfig.Listen)
