@@ -2,11 +2,13 @@ package main
 
 import (
 	"Axiss_server/api"
-	"Axiss_server/wechat"
+	"Axiss_server/config"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	globalConfig := config.GetGlobalConfig()
+
 	router := gin.Default()
 	// 处理跨域请求
 	router.Use(api.CORSMiddleware())
@@ -16,12 +18,17 @@ func main() {
 		md.GET("/get_website_title", api.GetWebsiteTitle)
 	}
 
-	wechatInstance := wechat.InitWechat()
-	offAccount := wechat.NewMyOfficialAccount(wechatInstance)
-	wc := router.Group("/wc")
+	//wechatInstance := wechat.InitWechat()
+	//offAccount := wechat.NewMyOfficialAccount(wechatInstance)
+	//wc := router.Group("/wc")
+	//{
+	//	wc.Any("/serve", offAccount.Serve)
+	//}
+
+	rss := router.Group("rss")
 	{
-		wc.Any("/serve", offAccount.Serve)
+		rss.POST("/add", api.AddFeed)
 	}
 
-	router.Run(":7777")
+	router.Run(globalConfig.Listen)
 }
