@@ -14,6 +14,7 @@ func main() {
 	router.Use(api.CORSMiddleware())
 
 	md := router.Group("/md")
+	md.Use(api.CORSMiddleware())
 	{
 		md.GET("/get_website_title", api.GetWebsiteTitle)
 	}
@@ -26,6 +27,7 @@ func main() {
 	//}
 
 	rss := router.Group("rss")
+	rss.Use(api.CORSMiddleware())
 	{
 		rss.POST("/add", api.AddFeed)
 		rss.GET("/feed", api.GetFeed)
