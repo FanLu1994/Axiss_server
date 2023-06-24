@@ -3,6 +3,7 @@ module Axiss_server
 go 1.18
 
 require (
+	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gocolly/colly v1.2.0
 	github.com/gorilla/feeds v1.1.1
