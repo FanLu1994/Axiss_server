@@ -33,5 +33,12 @@ func main() {
 		rss.GET("/feed", api.GetFeed)
 	}
 
+	benchmark := router.Group("benchmark")
+	benchmark.Use(api.CORSMiddleware())
+	{
+		rss.POST("/add", api.AddBenchMark)
+		rss.POST("/get", api.GetBenchmarkList)
+	}
+
 	router.Run(globalConfig.Listen)
 }

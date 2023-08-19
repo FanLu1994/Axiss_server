@@ -6,6 +6,7 @@ import (
 )
 
 var configFile []byte
+var config *Config
 
 type Config struct {
 	Listen string `yaml:"listen"`
@@ -17,11 +18,6 @@ type Config struct {
 }
 
 func GetGlobalConfig() *Config {
-	var config *Config
-	err := yaml.Unmarshal(configFile, &config)
-	if err != nil {
-		panic(err)
-	}
 	return config
 }
 
@@ -30,5 +26,9 @@ func init() {
 	configFile, err = ioutil.ReadFile("./config.yaml")
 	if err != nil {
 		panic("open config file fail:" + err.Error())
+	}
+	err = yaml.Unmarshal(configFile, &config)
+	if err != nil {
+		panic(err)
 	}
 }

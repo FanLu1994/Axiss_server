@@ -23,7 +23,7 @@ func init() {
 	if err != nil {
 		panic("无法连接到数据库")
 	}
-	err = db.AutoMigrate(&Feed{})
+	err = db.AutoMigrate(&Feed{}, &BenchMark{})
 	if err != nil {
 		panic("数据库迁移失败")
 	}
