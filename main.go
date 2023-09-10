@@ -14,7 +14,7 @@ func main() {
 	// 处理跨域请求
 	router.Use(api.CORSMiddleware())
 	// 日志模块
-	router.Use(util.Logger())
+	router.Use(util.MyLogger())
 
 	md := router.Group("/md")
 	md.Use(api.CORSMiddleware())

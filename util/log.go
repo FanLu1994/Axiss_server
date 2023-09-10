@@ -10,18 +10,22 @@ import (
 	"time"
 )
 
-func Logger() gin.HandlerFunc {
-	log := logrus.New()
+var Logger logrus.Logger
+
+func MyLogger() gin.HandlerFunc {
+	Logger := logrus.New()
 
 	// 设置输出文件
 	filePath := "logs/"
 	fileName := ""
 	//        打开指定处的文件，并指定权限为：可读可写，可创建
 	file := filePath + fileName
-	log.Out = os.Stdout
+	Logger.Out = os.Stdout
 
 	// 设置日志级别。低于 Debug 级别的 Trace 将不会被打印
-	log.SetLevel(logrus.DebugLevel)
+	Logger.SetLevel(logrus.DebugLevel)
+
+	logrus.SetReportCaller(true)
 
 	// 设置日志切割 rotatelogs
 	writer, _ := rotatelogs.New(
@@ -49,7 +53,7 @@ func Logger() gin.HandlerFunc {
 	})
 
 	//为 logrus 实例添加自定义 hook
-	log.AddHook(hook)
+	Logger.AddHook(hook)
 	return func(c *gin.Context) {
 		// 一.配置所需的 Fields
 		startTime := time.Now()
@@ -71,7 +75,7 @@ func Logger() gin.HandlerFunc {
 		path := c.Request.RequestURI // 8.请求 URL
 
 		// 二.从标准记录器创建一个条目，并向其中添加多个字段(隐式添加 log 本身的时间戳,信息等 fields )
-		entry := log.WithFields(logrus.Fields{
+		entry := Logger.WithFields(logrus.Fields{
 			//"HostName":  hostName,
 			"Status":    statusCode,
 			"SpendTime": ST,
@@ -86,7 +90,7 @@ func Logger() gin.HandlerFunc {
 		// 源码注释： Errors is a list of errors attached to all the handlers/middlewares who used this context.
 		// 三.将系统内部的错误 log 出去
 		if len(c.Errors) > 0 {
-			log.Error(c.Errors.ByType(gin.ErrorTypePrivate).String())
+			Logger.Error(c.Errors.ByType(gin.ErrorTypePrivate).String())
 		}
 
 		// 四.根据状态码决定打印 log 的等级
