@@ -40,7 +40,7 @@ func main() {
 	benchmark.Use(api.CORSMiddleware())
 	{
 		benchmark.POST("/add", api.AddBenchMark)
-		benchmark.POST("/get", api.GetBenchmarkList)
+		benchmark.GET("/get", api.GetBenchmarkList)
 	}
 
 	router.Run(globalConfig.Listen)
