@@ -3,6 +3,7 @@ package main
 import (
 	"Axiss_server/api"
 	"Axiss_server/config"
+	"Axiss_server/util"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,8 @@ func main() {
 	router := gin.Default()
 	// 处理跨域请求
 	router.Use(api.CORSMiddleware())
+	// 日志模块
+	router.Use(util.Logger())
 
 	md := router.Group("/md")
 	md.Use(api.CORSMiddleware())
