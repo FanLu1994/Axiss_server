@@ -45,7 +45,7 @@ func GetBenchmarkList(c *gin.Context) {
 	sizeStr := c.Query("size")
 	page, err1 := strconv.Atoi(pageStr)
 	size, err2 := strconv.Atoi(sizeStr)
-	Logger.Infoln("testtesttest")
+	Logger.Errorln("testtesttest")
 	if err1 != nil || err2 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page or size value"})
 		return
