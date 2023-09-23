@@ -14,6 +14,7 @@ type BenchMarkTO struct {
 	Name string `json:"name"`
 	Url  string `json:"url"`
 	Icon string `json:"icon"`
+	Tags string `json:"tags"`
 }
 
 func AddBenchMark(c *gin.Context) {
@@ -30,6 +31,7 @@ func AddBenchMark(c *gin.Context) {
 		Name: benchmark.Name,
 		Url:  benchmark.Url,
 		Icon: benchmark.Icon,
+		Tags: benchmark.Tags,
 	}
 
 	db.GlobalDb.Create(&newBenchmark)
@@ -43,9 +45,9 @@ func AddBenchMark(c *gin.Context) {
 func GetBenchmarkList(c *gin.Context) {
 	pageStr := c.Query("page")
 	sizeStr := c.Query("size")
+	tag := c.Query("tag")
 	page, err1 := strconv.Atoi(pageStr)
 	size, err2 := strconv.Atoi(sizeStr)
-	Logger.Errorln("testtesttest")
 	if err1 != nil || err2 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid page or size value"})
 		return
@@ -56,7 +58,7 @@ func GetBenchmarkList(c *gin.Context) {
 
 	var benchmarks []db.BenchMark
 	// 查询数据
-	db.GlobalDb.Offset(offset).Limit(limit).Find(&benchmarks)
+	db.GlobalDb.Where("tags LIKE ?", "%"+tag+"%").Offset(offset).Limit(limit).Find(&benchmarks)
 
 	c.JSON(http.StatusOK, gin.H{"data": benchmarks})
 }
