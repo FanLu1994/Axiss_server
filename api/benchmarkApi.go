@@ -81,7 +81,6 @@ func GetTags(c *gin.Context) {
 
 		// 使用空格分割标签字符串
 		tagsSlice := strings.Split(tagsString, " ")
-
 		// 将标签添加到映射中
 		for _, tag := range tagsSlice {
 			uniqueTags[tag] = true
