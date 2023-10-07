@@ -41,6 +41,7 @@ func main() {
 	{
 		benchmark.POST("/add", api.AddBenchMark)
 		benchmark.GET("/get", api.GetBenchmarkList)
+		benchmark.GET("/tags", api.GetTags)
 	}
 
 	router.Run(globalConfig.Listen)
